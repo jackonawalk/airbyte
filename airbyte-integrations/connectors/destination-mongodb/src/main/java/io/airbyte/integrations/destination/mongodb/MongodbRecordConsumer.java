@@ -125,6 +125,10 @@ public class MongodbRecordConsumer extends FailureTrackingAirbyteMessageConsumer
       newDocument.put(AIRBYTE_DATA_HASH, newDocumentDataHashCode);
       newDocument.put(AIRBYTE_EMITTED_AT, LocalDateTime.now().toString());
 
+    //   add additional metadata context
+      newDocument.put("_airbyte_stream", recordMessage.getStream());
+      newDocument.put("_airbyte_namespace", recordMessage.getNamespace());
+
       final var collection = writeConfig.getCollection();
 
       final var documentsHash = writeConfig.getDocumentsHash();
